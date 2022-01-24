@@ -1,21 +1,18 @@
-import * as Yup from 'yup';
-import { useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useFormik, Form, FormikProvider } from 'formik';
-import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
+import { Icon } from '@iconify/react';
+import { LoadingButton } from '@mui/lab';
 // material
 import {
-  Link,
-  Stack,
-  Checkbox,
-  TextField,
-  IconButton,
-  InputAdornment,
-  FormControlLabel
+  Checkbox, FormControlLabel, IconButton,
+  InputAdornment, Link,
+  Stack, TextField
 } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import axios from 'axios';
+import { Form, FormikProvider, useFormik } from 'formik';
+import { useState } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 
 // ----------------------------------------------------------------------
 
@@ -35,8 +32,35 @@ export default function LoginForm() {
       remember: true
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    // onSubmit: () => {
+    //   navigate('/dashboard', { replace: true });
+    // }
+
+    onSubmit: async () => {
+
+      const formData = new FormData();
+      formData.append('empEmail', values.email);
+      formData.append('password', values.password);
+      // console.log(formData.get("empEmail"));
+      const response = await axios(
+        {
+          method: 'post',
+          url: 'https://hair-cut.herokuapp.com/api/empLogin',
+          data: formData,
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      )
+      console.log(JSON.stringify(response?.data));
+      // const accessToken = response?.data?.token;
+      // const roles = [response?.data?.roleID];
+      // console.log(roles);
+      // sessionStorage.setItem("roles", roles);
+      // setAuth({ user, pwd, roles, accessToken });
+
+      // setUser('');
+      // setPwd('');
+      // navigate(from, { replace: true });
+
     }
   });
 
