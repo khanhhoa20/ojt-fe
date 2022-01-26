@@ -51,6 +51,12 @@ export default function LoginForm() {
         }
       )
       console.log(JSON.stringify(response?.data));
+      const roleID = response?.data?.roleID;
+      sessionStorage.setItem("roleID", roleID);
+      if (sessionStorage.getItem('roleID') === 'ad')
+        navigate('/admin/dashboard/app', { replace: true });
+      if (sessionStorage.getItem('roleID') === 'st')
+        navigate('/student/dashboard/app', { replace: true });
       // const accessToken = response?.data?.token;
       // const roles = [response?.data?.roleID];
       // console.log(roles);
