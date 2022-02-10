@@ -19,7 +19,7 @@ export default function Router() {
   return useRoutes([
     {
       path: '/admin',
-      element: <RequireAuth allowedRoles={["ad"]} />,
+      element: <RequireAuth allowedRoles={["SYS_ADMIN"]} />,
       children: [
         {
           path: 'dashboard',
@@ -46,7 +46,7 @@ export default function Router() {
     },
     {
       path: '/student',
-      element: <RequireAuth allowedRoles={["st"]} />,
+      element: <RequireAuth allowedRoles={["STUDENT"]} />,
       children: [
         {
           path: 'dashboard',

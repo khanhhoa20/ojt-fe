@@ -38,24 +38,27 @@ export default function LoginForm() {
 
     onSubmit: async () => {
 
-      const formData = new FormData();
-      formData.append('empEmail', values.email);
-      formData.append('password', values.password);
+      // const formData = new FormData();
+      // formData.append('empEmail', values.email);
+      // formData.append('password', values.password);
       // console.log(formData.get("empEmail"));
       const response = await axios(
         {
           method: 'post',
-          url: 'https://hair-cut.herokuapp.com/api/empLogin',
-          data: formData,
-          headers: { "Content-Type": "multipart/form-data" },
+          url: 'http://localhost:8081/backend/api/auth/signin',
+          data: {
+            "email": values.email,
+            "password": values.password
+          },
+
         }
       )
       console.log(JSON.stringify(response?.data));
-      const roleID = response?.data?.roleID;
+      const roleID = response?.data?.roles;
       sessionStorage.setItem("roleID", roleID);
-      if (sessionStorage.getItem('roleID') === 'ad')
+      if (sessionStorage.getItem('roleID') === 'SYS_ADMIN')
         navigate('/admin/dashboard/app', { replace: true });
-      if (sessionStorage.getItem('roleID') === 'st')
+      if (sessionStorage.getItem('roleID') === 'STUDENT')
         navigate('/student/dashboard/app', { replace: true });
       // const accessToken = response?.data?.token;
       // const roles = [response?.data?.roleID];
